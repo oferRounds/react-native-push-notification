@@ -30,6 +30,10 @@ NotificationsComponent.prototype.requestPermissions = function(senderID: string)
 	RNPushNotification.requestPermissions(senderID);
 };
 
+NotificationsComponent.prototype.isChannelBlocked = function(channelId: string, handler: Function) {
+	RNPushNotification.isChannelBlocked(channelId).then(isBlocked => callback({ isBlocked }));
+};
+
 NotificationsComponent.prototype.subscribeToTopic = function(topic: string) {
 	RNPushNotification.subscribeToTopic(topic);
 };

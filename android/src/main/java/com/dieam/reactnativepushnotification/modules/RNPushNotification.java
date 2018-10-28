@@ -1,13 +1,17 @@
 package com.dieam.reactnativepushnotification.modules;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.dieam.reactnativepushnotification.helpers.ApplicationBadgeHelper;
@@ -23,6 +27,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -139,6 +144,20 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
         } catch (Exception e) {
             Log.d("EXCEPTION SERVICE::::::", "requestPermissions: " + e);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @ReactMethod
+    public void isChannelBlocked(String senderID, Promise promise) {
+        ReactContext reactContext = getReactApplicationContext();
+
+        NotificationManager notificationManager =
+                (NotificationManager) reactContext.getSystemService(reactContext.NOTIFICATION_SERVICE);
+        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(senderID);
+        Boolean isBlocked = (notificationChannel.getImportance() == NotificationManager.IMPORTANCE_NONE);
+
+        promise.resolve(isBlocked);
     }
 
     @ReactMethod

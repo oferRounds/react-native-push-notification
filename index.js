@@ -284,9 +284,14 @@ Notifications.presentLocalNotification = function() {
 	return this.callNative('presentLocalNotification', arguments);
 };
 
+Notifications.isChannelBlocked = function() {
+	return this.callNative('isChannelBlocked', arguments);
+};
+
 Notifications.scheduleLocalNotification = function() {
 	return this.callNative('scheduleLocalNotification', arguments);
 };
+
 
 Notifications.cancelLocalNotifications = function() {
 	return this.callNative('cancelLocalNotifications', arguments);
